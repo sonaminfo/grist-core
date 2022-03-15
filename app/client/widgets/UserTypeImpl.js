@@ -10,6 +10,7 @@ const {ReferenceEditor} = require('./ReferenceEditor');
 const {ReferenceList} = require('./ReferenceList');
 const {ReferenceListEditor} = require('./ReferenceListEditor');
 const {HyperLinkTextBox} = require('./HyperLinkTextBox');
+const {MarkdownTextBox} = require('./MarkdownTextBox');
 const {ChoiceTextBox } = require('./ChoiceTextBox');
 const {Reference} = require('./Reference');
 
@@ -21,6 +22,7 @@ const nameToWidget = {
   'TextEditor': NTextEditor,
   'NumericTextBox': NumericTextBox,
   'HyperLinkTextBox': HyperLinkTextBox,
+  'MarkdownTextBox': MarkdownTextBox,
   'HyperLinkEditor': HyperLinkEditor,
   'Spinner': Spinner,
   'CheckBox': require('./CheckBox'),

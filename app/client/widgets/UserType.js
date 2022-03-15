@@ -73,6 +73,14 @@ var typeDefs = {
         options: {
           alignment: 'left',
         }
+      },
+      Markdown: {
+        cons: 'MarkdownTextBox',
+        editCons: 'TextEditor',
+        icon: 'FieldTextbox',
+        options: {
+          alignment: 'left',
+        }
       }
     },
     default: 'TextBox'
