@@ -122,8 +122,12 @@ function pagePanelsDoc(owner: IDisposableOwner, appModel: AppModel, appObj: App)
     gristDoc ? RightPanel.create(use.owner, gristDoc, rightPanelOpen) : null);
 
   // Set document title to strings like "DocName - Grist"
-  owner.autoDispose(subscribe(pageModel.currentDocTitle, (use, docName) => {
-    document.title = `${docName} - Grist`;
+  owner.autoDispose(subscribe(pageModel.currentDocTitle, pageModel.currentDocPageName, (use, docName, pageName) => {
+    if (pageName) {
+      document.title = `${pageName} - ${docName} - Grist`;
+    } else {
+      document.title = `${docName} - Grist`;
+    }
   }));
 
   // Called after either panel is closed, opened, or resized.

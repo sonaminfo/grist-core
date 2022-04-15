@@ -53,6 +53,7 @@ export interface DocPageModel {
   currentOrg: Observable<Organization|null>;
   currentOrgName: Observable<string>;
   currentDocTitle: Observable<string>;
+  currentDocPageName: Observable<string>;
   isReadonly: Observable<boolean>;
   isPrefork: Observable<boolean>;
   isFork: Observable<boolean>;
@@ -93,6 +94,7 @@ export class DocPageModelImpl extends Disposable implements DocPageModel {
   public readonly currentOrgName = Computed.create(this, this.currentOrg,
                                                    (use, org) => getOrgNameOrGuest(org, this.appModel.currentUser));
   public readonly currentDocTitle = Computed.create(this, this.currentDoc, (use, doc) => doc ? doc.name : '');
+  public readonly currentDocPageName = Observable.create(this, '');
   public readonly isReadonly = Computed.create(this, this.currentDoc, (use, doc) => doc ? doc.isReadonly : false);
   public readonly isPrefork = Computed.create(this, this.currentDoc, (use, doc) => doc ? doc.isPreFork : false);
   public readonly isFork = Computed.create(this, this.currentDoc, (use, doc) => doc ? doc.isFork : false);
@@ -134,6 +136,7 @@ export class DocPageModelImpl extends Disposable implements DocPageModel {
         this._openerDocKey = docKey;
         this.gristDoc.set(null);
         this.currentDoc.set(null);
+        this.currentDocPageName.set('');
         this.undoState.set(null);
         if (!urlId) {
           this._openerHolder.clear();
@@ -284,6 +287,9 @@ export class DocPageModelImpl extends Disposable implements DocPageModel {
 
     // Move ownership of docComm to GristDoc.
     gristDoc.autoDispose(flow.release(docComm));
+    gristDoc.autoDispose(subscribe(gristDoc.currentPageName, (use, pageName) => {
+      this.currentDocPageName.set(pageName);
+    }));
 
     // Move ownership of GristDoc to its final owner.
     this.gristDoc.autoDispose(flow.release(gristDoc));
